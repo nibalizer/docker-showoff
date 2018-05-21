@@ -12,6 +12,8 @@ docker pull nibalizer/docker-showoff
 docker run -it --rm  -p 9090:9090 --mount type=bind,source="$(pwd)",target=/srv/showoff  nibalizer/docker-showoff serve
 ```
 
+Open web browser to ``http://localhost:9090``
+
 Replace 'serve' above with 'help' to explore showoff functionality.
 
 
