@@ -24,6 +24,12 @@ serving your presentation locally from your laptop, you can easily publish your
 showoff presentation to GitHub Pages. Follow these steps once you have a version
 of your presentation that your are happy with:
 
+* Generate a static version of your presentation:
+
+```shell
+showoff github
+```
+
 * Create a branch called `gh-pages` off of `master`:
 
 ```shell
