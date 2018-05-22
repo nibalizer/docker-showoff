@@ -10,8 +10,8 @@ image: .image
 	touch .image
 
 push: image
-	docker tag docker-showoff $REGISTRY/docker-showoff
-	docker push $REGISTRY/docker-showoff
+	docker tag docker-showoff $(REGISTRY)/docker-showoff
+	docker push $(REGISTRY)/docker-showoff
 
 run: image
 	docker run -ti --rm -p 9090:9090 \
