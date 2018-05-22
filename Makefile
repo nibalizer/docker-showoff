@@ -1,21 +1,18 @@
-SHELL := /bin/bash
-REV_FILE=.make-rev-check
+all: image
 
-# Sets the revision and stores it in .make-rev-check.
-set-rev:
-	git rev-parse --short HEAD > $(REV_FILE)
+REV     :=":$(shell git rev-parse --short HEAD)"
+REGISTRY:=registry.ng.bluemix.net/nibalizer
 
-images: set-rev
-	./deploy/images/make-image.sh deploy/images/app.Dockerfile "docker-showoff:$$(cat $(REV_FILE))"
+image: .image
 
-tag-image: set-rev
-	docker tag "docker-showoff:$$(cat $(REV_FILE))" "registry.ng.bluemix.net/nibalizer/docker-showoff:$$(cat $(REV_FILE))"
+.image: Dockerfile
+	docker build -t docker-showoff .
+	touch .image
 
-# Uploads image to IBM Cointainer Repository. Runs set-rev to ensure that the rev_file exists.
-upload-image: set-rev
-	docker push "registry.ng.bluemix.net/nibalizer/docker-showoff:$$(cat $(REV_FILE))"
+push: image
+	docker tag docker-showoff $REGISTRY/docker-showoff
+	docker push $REGISTRY/docker-showoff
 
-# Runs all image related tasks.
-all-images: set-rev images tag-images upload-images
-
-run: docker run -it --rm  -p 9090:9090 --mount type=bind,source="$(pwd)",target=/srv/showoff "nibalizer/docker-showoff:$$(cat $(REV_FILE))" serve
+run: image
+	docker run -ti --rm -p 9090:9090 \
+		-v $(CURDIR):/srv/showoff docker-showoff serve
