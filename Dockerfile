@@ -1,8 +1,6 @@
-FROM drecom/ubuntu-ruby:latest
+FROM ruby
 
 RUN gem install showoff
-RUN mkdir /srv/showoff
-WORKDIR /srv/showoff
 
-ENTRYPOINT ["/usr/local/rbenv/shims/showoff"]
+ENTRYPOINT ["showoff"]
 CMD ["help"]
